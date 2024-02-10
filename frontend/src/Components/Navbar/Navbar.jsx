@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const PAGES = [
   { label: 'Home', destination: '/' },
+  { label: 'Interpreter', destination: '/interpreter' },
   { label: 'About YOXS', destination: '/about' },
 ];
 
