@@ -1,0 +1,30 @@
+nav {
+    background-color: #333; 
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px; 
+    align-items: center;
+  }
+  
+  ul.wrapper {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ul.wrapper li {
+    margin: 0 10px; 
+  }
+  
+  ul.wrapper li a {
+    text-decoration: none;
+    color: white; 
+    font-size: 16px; 
+  }
+  
+  ul.wrapper li a:hover {
+    text-decoration: underline;
+  }
+  
