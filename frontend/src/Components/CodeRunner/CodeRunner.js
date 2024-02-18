@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 // Import PrismJS for syntax highlighting
 import Prism from 'prismjs';
-import 'prismjs/themes/prism-okaidia.css'; // Ensure this path is correct
+import 'prismjs/themes/prism-okaidia.css'; // 
 
 const CodeRunner = () => {
-    const [codeSamples, setCodeSamples] = useState([]); // Assuming you will fetch these or define them
+    const [codeSamples, setCodeSamples] = useState([]); 
     const [selectedCode, setSelectedCode] = useState('');
 
     useEffect(() => {
