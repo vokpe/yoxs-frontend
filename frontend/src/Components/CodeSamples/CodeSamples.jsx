@@ -3,12 +3,18 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 
 function CodeSamples() {
-    const [error, setError] = useState();
+    const [error, setError] = useState('');
+    const [samples, setSamples] = useState([]);
 
     useEffect (
         () => {
             axios.get('http://localhost:8000/codesamples')
-                .then()
+                .then((response) => {
+                    const samplesObject = reponse.data.Data;
+                    const keys = Object.keys(samplesObject);
+                    const samplesArray = keys.map((key) => samplesObject[key]);
+                    setSamples(samplesArray);
+                })
                 .catch(() => {setError('Something went wrong'); });
         },
         [],
