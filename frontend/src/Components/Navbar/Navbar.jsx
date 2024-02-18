@@ -6,6 +6,7 @@ import './Navbar.css';
 const PAGES = [
   { label: 'Home', destination: '/' },
   { label: 'Interpreter', destination: '/interpreter' },
+  { label: 'Code Samples', destination: '/codesamples' },
   { label: 'About YOXS', destination: '/about' },
 ];
 
