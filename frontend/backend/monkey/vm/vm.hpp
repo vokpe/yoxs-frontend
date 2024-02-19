@@ -37,6 +37,40 @@ public:
         sp++;
         return true;
     }
+
+        std::shared_ptr<Object> pop() {
+        if (sp == 0) {
+            return nullptr; // Stack underflow handling
+        }
+        sp--;
+        return stack[sp];
+    }
+
+    std::shared_ptr<Object> peek(int distance = 0) {
+        if (sp - distance - 1 < 0) {
+            return nullptr; // Invalid peek
+        }
+        return stack[sp - distance - 1];
+    }
+
+    // Frame management methods (simplified for demonstration)
+    void pushFrame(int frame) {
+        frames.push_back(frame);
+        framesIndex++;
+    }
+
+    int popFrame() {
+        if (framesIndex == 0) {
+            return -1; // Call stack underflow handling
+        }
+        framesIndex--;
+        return frames[framesIndex];
+    }
+
+    // Placeholder for bytecode execution method
+    void executeBytecode() {
+        // Implementation depends on bytecode format and instructions
+    }
 private:
     std::vector<std::shared_ptr<Object>> constants;
     std::vector<std::shared_ptr<Object>> stack;
