@@ -17,9 +17,11 @@ function App() {
           <button>PARSE</button>
           <button>DEBUG</button>
         </div>
+        USER INPUT HERE:
         <div className="input-area">
           {/* Area for user input */}
         </div>
+        OUTPUT:
         <div className="output-area">
           {/* Area to display output */}
         </div>
