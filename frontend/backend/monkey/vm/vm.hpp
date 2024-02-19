@@ -21,6 +21,22 @@ std::shared_ptr<BooleanObject> ObjectConstants::FALSE = std::make_shared<Boolean
 
 class VM {
 public:
+    VM() : sp(0), framesIndex(0) {
+        stack.reserve(StackSize);
+        globals.resize(GlobalsSize);
+        frames.reserve(MaxFrames);
+    }
+
+    // Stack manipulation methods
+    bool push(std::shared_ptr<Object> obj) {
+        if (sp >= StackSize) {
+            // Stack overflow handling
+            return false;
+        }
+        stack.push_back(obj);
+        sp++;
+        return true;
+    }
 private:
     std::vector<std::shared_ptr<Object>> constants;
     std::vector<std::shared_ptr<Object>> stack;
