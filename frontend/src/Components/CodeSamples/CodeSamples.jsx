@@ -34,4 +34,15 @@ function CodeSamples() {
     )
 }
 
+function ErrorMessage({ message }) {
+    return (
+        <div className="error-message">
+            {message}
+        </div>
+    );
+}
+ErrorMessage.propTypes = {
+    message: propTypes.string.isRequired,
+};
+
 export default CodeSamples;
