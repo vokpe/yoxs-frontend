@@ -1,10 +1,8 @@
-// App.js
-
 import React from 'react';
 import './App.css';
 import Navbar from './Components/Navbar';
 import Interpreter from './Interpreter/Interpreter';
-//import CodeRunner from './CodeRunner';
+// import CodeRunner from './CodeRunner';
 
 function App() {
   return (
@@ -19,7 +17,11 @@ function App() {
         </div>
         USER INPUT HERE:
         <div className="input-area">
-          {/* Area for user input */}
+          {/* Area for user input now implemented with a textarea */}
+          <textarea 
+            placeholder="Enter your code here" 
+            style={{ width: '100%', height: '150px', marginTop: '10px', marginBottom: '10px' }}
+          ></textarea>
         </div>
         OUTPUT:
         <div className="output-area">
@@ -28,7 +30,6 @@ function App() {
       </div>
       <Interpreter />
     </div>
-  
   );
 }
 
