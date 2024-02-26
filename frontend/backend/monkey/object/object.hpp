@@ -17,7 +17,7 @@ class Object;
 
 using BuiltinFunction = std::function<std::shared_ptr<Object>(const std::vector<std::shared_ptr<Object>>& args)>;
 
-enum ObjectType {
+const enum ObjectType {
     NULL_OBJ,
     ERROR_OBJ,
 
