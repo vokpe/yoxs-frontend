@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
 
-function AddCodeSampleForm() {
+function AddCodeSampleForm(fetchCodeSamples) {
     const [name, setName] = useState();
     const [number, setNumber] = useState(0);
 
@@ -11,7 +11,11 @@ function AddCodeSampleForm() {
 
     const addCodeSample = () => {
         event.preventDefault();
-        axios.post('http://localhost:8000/codesamples', { name, codeSampleID: number });
+        axios.post('http://localhost:8000/codesamples', { name: name, codeSampleID: number })
+            .then(() => {
+                fetchCodeSamples();
+            })
+            .catch(() => { setError('There was a problem adding the code form.'); });
     };
 
     return (
@@ -34,9 +38,8 @@ function CodeSamples() {
     const [error, setError] = useState('');
     const [samples, setSamples] = useState([]);
 
-    useEffect (
-        () => {
-            axios.get('http://localhost:8000/codesamples')
+    const fetchCodeSamples = () => {
+        axios.get('http://localhost:8000/codesamples')
                 .then((response) => {
                     const samplesObject = reponse.data.Data;
                     const keys = Object.keys(samplesObject);
@@ -44,7 +47,10 @@ function CodeSamples() {
                     setSamples(samplesArray);
                 })
                 .catch(() => {setError('Something went wrong'); });
-        },
+    };
+
+    useEffect (
+        fetchCodeSamples,
         [],
     );
 
@@ -58,7 +64,7 @@ function CodeSamples() {
                 {error}
                 </div>
             )}
-            <AddCodeSampleForm />
+            <AddCodeSampleForm setError={setError} fetchCodeSamples={fetchCodeSamples}/>
         </div>
     )
 }
