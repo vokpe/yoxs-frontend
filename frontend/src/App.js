@@ -17,7 +17,7 @@ function App() {
         </div>
         USER INPUT HERE:
         <div className="input-area">
-          {/* Area for user input now implemented with a textarea */}
+          {/* user input area */}
           <textarea 
             placeholder="Enter your code here" 
             style={{ width: '100%', height: '150px', marginTop: '10px', marginBottom: '10px' }}
@@ -25,10 +25,10 @@ function App() {
         </div>
         OUTPUT:
         <div className="output-area">
-          {/* Area to display output */}
+          {/* output area */}
+          <Interpreter />
         </div>
       </div>
-      <Interpreter />
     </div>
   );
 }

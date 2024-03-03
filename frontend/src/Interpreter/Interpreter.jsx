@@ -12,7 +12,7 @@ function Interpreter() {
       }).catch((error) => {
         // Handling errors here
         console.error("There was an error fetching the data:", error);
-        setData({ error: "Failed to fetch data." });
+        setData({ error: "Failed to fetch data." }); 
       });
     }, []); // The empty array ensures this effect runs once on mount
 
@@ -21,7 +21,6 @@ function Interpreter() {
         {/* Conditional rendering based on fetched data */}
         {data ? (
           <div>
-            <h2>Output:</h2>
             <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
               {JSON.stringify(data, null, 2)}
             </pre>
