@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import propTypes from 'prop-types';
 import axios from 'axios';
 import { BACKEND_URL } from '../constants';
 
-function Interpreter(props) {
+function Interpreter() {
     const [data, setData] = useState(null);
-  
+
     useEffect(() => {
+      // Fetch data from the backend on component mount
       axios.get(BACKEND_URL).then((response) => {
         setData(response.data);
+      }).catch((error) => {
+        // Handling errors here
+        console.error("There was an error fetching the data:", error);
+        setData({ error: "Failed to fetch data." });
       });
-    }, []); // empty array ensures this effect runs once on mount
-  
+    }, []); // The empty array ensures this effect runs once on mount
+
     return (
       <div>
-        {/* Render UI here */}
-        {data && <div>{/* Render data here */}</div>}
+        {/* Conditional rendering based on fetched data */}
+        {data ? (
+          <div>
+            <h2>Output:</h2>
+            <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          </div>
+        ) : (
+          <p>Loading data...</p>
+        )}
       </div>
     );
-  }
+}
 
 export default Interpreter;

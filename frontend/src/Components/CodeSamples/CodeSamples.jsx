@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
 
-function AddCodeSampleForm() {
+function AddCodeSampleForm({setError, fetchCodeSamples, cancel}) {
     const [name, setName] = useState();
     const [number, setNumber] = useState(0);
 
@@ -11,7 +11,12 @@ function AddCodeSampleForm() {
 
     const addCodeSample = () => {
         event.preventDefault();
-        axios.post('http://localhost:8000/codesamples', { name, codeSampleID: number });
+        axios.post('http://localhost:8000/codesamples', { name: name, codeSampleID: number })
+            .then(() => {
+                setError('');
+                fetchCodeSamples();
+            })
+            .catch(() => { setError('There was a problem adding the code form.'); });
     };
 
     return (
@@ -24,19 +29,25 @@ function AddCodeSampleForm() {
                 Name
             </label>
             <input type="number" id="number" value={name} onChange={changeName} />
+            <button type="button" onClick={cancel}>Cancel</button>
             <button type="submit" onClick={addCodeSample}>Submit</button>
         </form>
     );
 }
+AddGameForm.propTypes = {
+    cancel: propTypes.func.isRequired,
+    fetchCodeSamples: propTypes.func.isRequired,
+    setError: propTypes.func.isRequired,
+};
 
 
 function CodeSamples() {
     const [error, setError] = useState('');
     const [samples, setSamples] = useState([]);
+    const [addingCodeSample, setAddingCodeSample] = useState(false);
 
-    useEffect (
-        () => {
-            axios.get('http://localhost:8000/codesamples')
+    const fetchCodeSamples = () => {
+        axios.get('http://localhost:8000/codesamples')
                 .then((response) => {
                     const samplesObject = reponse.data.Data;
                     const keys = Object.keys(samplesObject);
@@ -44,21 +55,27 @@ function CodeSamples() {
                     setSamples(samplesArray);
                 })
                 .catch(() => {setError('Something went wrong'); });
-        },
-        [],
-    );
+    };
+
+    const showAddCodeSample = () => { setAddingCodeSample(true); };
+    const hideAddCodeSample = () => { setAddingCodeSample(false); };
+
+    useEffect (fetchCodeSamples, []);
 
     return (
         <div className="wrapper">
             <h1>
                 Code Examples For Interpreter
             </h1>
+            <button type="button" onClick={showAddCodeSample}>
+                Add a Code Sample
+            </button>
             {error && (
                 <div className="error message">
                 {error}
                 </div>
             )}
-            <AddCodeSampleForm />
+            <AddCodeSampleForm setError={setError} cancel={hideAddCodeSample} fetchCodeSamples={fetchCodeSamples}/>
         </div>
     )
 }

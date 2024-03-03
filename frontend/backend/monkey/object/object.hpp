@@ -17,7 +17,7 @@ class Object;
 
 using BuiltinFunction = std::function<std::shared_ptr<Object>(const std::vector<std::shared_ptr<Object>>& args)>;
 
-const enum ObjectType {
+enum ObjectType {
     NULL_OBJ,
     ERROR_OBJ,
 
@@ -85,7 +85,7 @@ public:
     int64_t Value;
 
     Integer(int64_t value) : Value(value) {}
-    ObjectType Type() const override { return INTEGER_OBJ; }
+    ObjectType Type() const override { return ObjectType::INTEGER_OBJ; }
     std::string Inspect() const override { return std::to_string(Value); }
     HashKey keyHash() const override {
         return {INTEGER_OBJ, Value};
