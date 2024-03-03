@@ -1,13 +1,20 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Navbar from './Components/Navbar';
 import Interpreter from './Interpreter/Interpreter';
-// import CodeRunner from './CodeRunner';
+import About from './Components/About/About';
+//import CodeRunner from './CodeRunner';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
+      <Routes> {/* renders only the first Route that matches the location */}
+          <Route exact path="/" component={Interpreter} />
+          <Route path="/about" component={About} />
+          {/* add more routes for additional components below */}
+        </Routes>
       <div className="interpreter-container">
         <div className="button-area">
           <button>IMPORT</button>

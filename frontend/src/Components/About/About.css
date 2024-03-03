@@ -1,0 +1,33 @@
+.about-container {
+    background-color: #f8f9fa; 
+    color: #333;
+    padding: 20px;
+    border-radius: 8px; 
+    margin-top: 20px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    font-family: 'Arial', sans-serif; 
+  }
+  
+  .about-container h1 {
+    font-size: calc(18px + 2vmin);
+    margin-bottom: 16px; 
+  }
+  
+  .about-container p {
+    font-size: calc(10px + 1vmin); 
+    line-height: 1.6; 
+    margin-bottom: 16px;
+  }
+  
+  .about-container a {
+    color: #61dafb; 
+    text-decoration: none; 
+  }
+  
+  .about-container a:hover {
+    text-decoration: underline; 
+  }
+  
