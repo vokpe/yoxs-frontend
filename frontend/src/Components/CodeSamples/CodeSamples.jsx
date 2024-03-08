@@ -40,6 +40,26 @@ AddGameForm.propTypes = {
     setError: propTypes.func.isRequired,
 };
 
+function CodeSample({ codesample }) {
+    const { name, codeSampleID } = codesample;
+    return (
+      <Link to={name}>
+        <div className="codesample-container">
+          <h2>{name}</h2>
+          <p>
+            Code Sample ID: {codeSampleID}
+          </p>
+        </div>
+      </Link>
+    );
+  }
+  CodeSample.propTypes = {
+    codesample: propTypes.shape({
+      name: propTypes.string.isRequired,
+      codeSampleID: propTypes.number.isRequired,
+    }).isRequired,
+  };
+
 
 function CodeSamples() {
     const [error, setError] = useState('');
