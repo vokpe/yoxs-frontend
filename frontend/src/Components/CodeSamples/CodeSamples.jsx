@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
 
-function AddCodeSampleForm({setError, fetchCodeSamples, cancel}) {
+function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const [name, setName] = useState();
     const [number, setNumber] = useState(0);
 
@@ -19,6 +19,7 @@ function AddCodeSampleForm({setError, fetchCodeSamples, cancel}) {
             .catch(() => { setError('There was a problem adding the code form.'); });
     };
 
+    if (!visible) return null;
     return (
         <form>
             <label htmlFor="name">
@@ -35,6 +36,7 @@ function AddCodeSampleForm({setError, fetchCodeSamples, cancel}) {
     );
 }
 AddGameForm.propTypes = {
+    visible: propTypes.bool.isRequired,
     cancel: propTypes.func.isRequired,
     fetchCodeSamples: propTypes.func.isRequired,
     setError: propTypes.func.isRequired,
@@ -95,7 +97,7 @@ function CodeSamples() {
                 {error}
                 </div>
             )}
-            <AddCodeSampleForm setError={setError} cancel={hideAddCodeSample} fetchCodeSamples={fetchCodeSamples}/>
+            <AddCodeSampleForm visible={addingCodeSample} setError={setError} cancel={hideAddCodeSample} fetchCodeSamples={fetchCodeSamples}/>
         </div>
     )
 }
