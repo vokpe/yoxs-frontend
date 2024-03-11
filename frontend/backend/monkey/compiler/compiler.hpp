@@ -30,4 +30,15 @@ public:
     // Other member functions as necessary...
 };
 
+class Bytecode {
+public:
+    code::Instructions instructions;
+    std::vector<std::shared_ptr<object::Object>> constants;
+
+    // Constructors, destructors, and other member functions as necessary...
+};
+
+// Additional class or struct definitions as needed...
+
+
 #endif // COMPILER_H
