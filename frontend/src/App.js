@@ -1,20 +1,30 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
+import { Route, Routes } from 'react-router-dom'; 
 import Navbar from './Components/Navbar';
 import Interpreter from './Interpreter/Interpreter';
 import About from './Components/About/About';
 //import CodeRunner from './CodeRunner';
+
+function TestPage() {
+  return (
+    <div>
+      <h1>This is a Test Page</h1>
+      <p>Welcome to the test page. If you're seeing this, routing is working!</p>
+    </div>
+  );
+}
+
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Routes> {/* renders only the first Route that matches the location */}
-          <Route exact path="/" component={Interpreter} />
-          <Route path="/about" component={About} />
-          {/* add more routes for additional components below */}
-        </Routes>
+          <Route path="/" element={<Interpreter />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/test" element={<TestPage />} />
+      </Routes>
       <div className="interpreter-container">
         <div className="button-area">
           <button>IMPORT</button>
