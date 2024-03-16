@@ -26,7 +26,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
             <label htmlFor="number">
                 ID
             </label>
-            <input type="number" id="number" value={name} onChange={changeName} />
+            <input type="number" id="number" value={name} onChange={changeNumber} />
             <button type="button" onClick={cancel}>Cancel</button>
             <button type="submit" onClick={addCodeSample}>Submit</button>
         </form>
@@ -38,6 +38,34 @@ AddGameForm.propTypes = {
     fetchCodeSamples: propTypes.func.isRequired,
     setError: propTypes.func.isRequired,
 };
+
+function FetchCodeSampleViaID() {
+    const [number, setNumber] = useState(0);
+
+    const changeNumber = (event) => { setNumber(event.target.value); };
+  
+    const IDSubmit = (event) => {
+        event.preventDefault();
+        console.log(formData);
+    };
+    
+    if (!visible) return null;
+    return (
+      <form onSubmit={IDSubmit}>
+        <label>
+            Enter Code Sample ID:
+        </label>
+        <input type="number" id="number" value={name} onChange={changeNumber} />
+        <button type="button" onClick={cancel}>Cancel</button>
+        <button type="submit" onClick={IDSubmit}>Submit</button>
+      </form>
+    );
+}
+/*FetchCodeSampleViaID.propTypes = {
+    visible: propTypes.bool.isRequired,
+    cancel: propTypes.func.isRequired,
+    setError: propTypes.func.isRequired,
+};*/
 
 function CodeSample({ codesample }) {
     const { name, codeSampleID } = codesample;
