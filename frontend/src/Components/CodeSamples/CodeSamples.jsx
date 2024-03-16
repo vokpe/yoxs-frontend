@@ -12,10 +12,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const addCodeSample = () => {
         event.preventDefault();
         axios.post('http://localhost:8000/codesamples', { name: name, codeSampleID: number })
-            .then(() => {
-                setError('');
-                fetchCodeSamples();
-            })
+            .then(fetchCodeSamples)
             .catch(() => { setError('There was a problem adding the code form.'); });
     };
 
@@ -27,7 +24,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
             </label>
             <input type="text" id="name" value={name} onChange={changeName} />
             <label htmlFor="number">
-                Name
+                ID
             </label>
             <input type="number" id="number" value={name} onChange={changeName} />
             <button type="button" onClick={cancel}>Cancel</button>
@@ -55,13 +52,18 @@ function CodeSample({ codesample }) {
       </Link>
     );
   }
-  CodeSample.propTypes = {
+CodeSample.propTypes = {
     codesample: propTypes.shape({
-      name: propTypes.string.isRequired,
-      codeSampleID: propTypes.number.isRequired,
+        name: propTypes.string.isRequired,
+        codeSampleID: propTypes.number.isRequired,
     }).isRequired,
-  };
+};
 
+function codesamplesObjectToArray({ Data }) {
+    const keys = Object.keys(Data);
+    const codesamples = keys.map((key) => Data[key]);
+    return codesamples;
+}
 
 function CodeSamples() {
     const [error, setError] = useState('');
@@ -70,13 +72,8 @@ function CodeSamples() {
 
     const fetchCodeSamples = () => {
         axios.get('http://localhost:8000/codesamples')
-                .then((response) => {
-                    const samplesObject = reponse.data.Data;
-                    const keys = Object.keys(samplesObject);
-                    const samplesArray = keys.map((key) => samplesObject[key]);
-                    setSamples(samplesArray);
-                })
-                .catch(() => {setError('Something went wrong'); });
+                .then(({ data }) => setSamples(codesamplesObjectToArray(data)))
+                .catch(() => setError('Something went wrong when retrieving the code samples'));
     };
 
     const showAddCodeSample = () => { setAddingCodeSample(true); };
