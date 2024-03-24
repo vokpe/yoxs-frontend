@@ -46,8 +46,25 @@ function FetchCodeSampleViaID() {
   
     const IDSubmit = (event) => {
         event.preventDefault();
+        if (validateForm()) {
+            console.log(formData);
+          } else {
+            
+          }
         console.log(formData);
     };
+
+    const validateForm = () => {
+        const errors = {};
+    
+        if (!formData.setNumber) {
+          errors.setNumber = "ID Input is required";
+        }
+    
+        setFormData((prevState) => ({ ...prevState, errors }));
+    
+        return Object.keys(errors).length === 0;
+      };
     
     if (!visible) return null;
     return (
@@ -61,11 +78,11 @@ function FetchCodeSampleViaID() {
       </form>
     );
 }
-/*FetchCodeSampleViaID.propTypes = {
+FetchCodeSampleViaID.propTypes = {
     visible: propTypes.bool.isRequired,
     cancel: propTypes.func.isRequired,
     setError: propTypes.func.isRequired,
-};*/
+};
 
 function CodeSample({ codesample }) {
     const { name, codeSampleID } = codesample;
