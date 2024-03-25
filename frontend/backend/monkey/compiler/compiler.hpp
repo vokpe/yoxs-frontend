@@ -4,41 +4,52 @@
 #include "../ast/ast.hpp"
 #include "../code/code.hpp"
 #include "../object/object.hpp"
-
-class CompilationScope {
-public:
-    code::Instructions instructions;
-    EmittedInstruction lastInstruction;
-    EmittedInstruction previousInstruction;
-};
+#include "SymbolTable.hpp" 
 
 class Compiler {
-private:
-    std::vector<std::shared_ptr<object::Object>> constants;
+public:
+    std::vector<std::shared_ptr<Object>> constants;
     std::unique_ptr<SymbolTable> symbolTable;
+
+    struct EmittedInstruction {
+        Opcode opcode;
+        int position;
+    };
+
+    struct CompilationScope {
+        Instructions instructions;
+        EmittedInstruction lastInstruction;
+        EmittedInstruction previousInstruction;
+    };
+
     std::vector<CompilationScope> scopes;
     int scopeIndex;
 
-public:
-    Compiler();
-    explicit Compiler(SymbolTable* s, const std::vector<std::shared_ptr<object::Object>>& consts);
-    ~Compiler();
+    Compiler() : scopeIndex(0) {
+        CompilationScope mainScope;
+        symbolTable = std::make_unique<SymbolTable>();
 
-    void Compile(const ast::Node& node); // Replace ast::Node with the correct namespace or remove if unnecessary
-    Bytecode Bytecode(); // Assuming Bytecode is a struct or class that needs to be defined
+        // Populate built-ins in the symbol table
+        int index = 0;
+        for (auto& builtin : Object::Builtins) {
+            symbolTable->DefineBuiltin(index++, builtin.name);
+        }
 
-    // Other member functions as necessary...
-};
+        scopes.push_back(mainScope);
+    }
 
-class Bytecode {
-public:
-    code::Instructions instructions;
-    std::vector<std::shared_ptr<object::Object>> constants;
+    Compiler(std::unique_ptr<SymbolTable> s, std::vector<std::shared_ptr<Object>> consts) : Compiler() {
+        symbolTable = std::move(s);
+        constants = consts;
+    }
 
-    // Constructors, destructors, and other member functions as necessary...
-};
+    Error Compile(const std::shared_ptr<ast::Node>& node) {
+        // Implementation of Compile based on the specific AST node type
+    }
 
-// Additional class or struct definitions as needed...
+    std::shared_ptr<Bytecode> Bytecode() {
+        return std::make_shared<Bytecode>(scopes[scopeIndex].instructions, constants);
+    }
 
 
 #endif // COMPILER_H
