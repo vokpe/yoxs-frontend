@@ -51,5 +51,25 @@ public:
         return std::make_shared<Bytecode>(scopes[scopeIndex].instructions, constants);
     }
 
+    void emit(Opcode op, std::vector<int> operands = {}) {
+        Instructions ins = Make(op, operands);
+        int pos = addInstruction(ins);
+        setLastInstruction(op, pos);
+    }
+
+    int addInstruction(const Instructions& ins) {
+        auto& currentInstructions = scopes[scopeIndex].instructions;
+        int posNewInstruction = currentInstructions.size();
+        currentInstructions.insert(currentInstructions.end(), ins.begin(), ins.end());
+        return posNewInstruction;
+    }
+
+    void setLastInstruction(Opcode op, int pos) {
+        if (scopeIndex >= scopes.size()) return;
+        auto& scope = scopes[scopeIndex];
+        scope.previousInstruction = scope.lastInstruction;
+        scope.lastInstruction = {op, pos};
+    }
+
 
 #endif // COMPILER_H
