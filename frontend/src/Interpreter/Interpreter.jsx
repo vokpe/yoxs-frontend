@@ -11,7 +11,7 @@ function Interpreter() {
         const fetchData = async () => {
             setIsLoading(true); // Start loading before fetching data
             try {
-                const response = await axios.get(BACKEND_URL);
+                const response = await axios.get(BACKEND_URL+ "/code/db_content");
                 setData(response.data); // Set data from response
                 setError(null); // Reset error state
             } catch (error) {
