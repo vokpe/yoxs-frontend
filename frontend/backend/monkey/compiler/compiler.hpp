@@ -4,11 +4,11 @@
 #include "../ast/ast.hpp"
 #include "../code/code.hpp"
 #include "../object/object.hpp"
-#include "SymbolTable.hpp" 
+#include "symbol_table.hpp" 
 
 class Compiler {
 public:
-    std::vector<std::shared_ptr<Object>> constants;
+    std::vector<std::shared_ptr<YOXS_OBJECT::Object>> constants;
     std::unique_ptr<SymbolTable> symbolTable;
 
     struct EmittedInstruction {
