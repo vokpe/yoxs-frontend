@@ -13,6 +13,21 @@ enum class SymbolScope {
     Function
 };
 
+// Represents a bytecode instruction or a series of instructions
+struct Instructions {
+    std::vector<std::string> bytecode;
+
+    // Add a new instruction to the bytecode sequence
+    void Make(const std::string& instruction) {
+        bytecode.push_back(instruction);
+    }
+
+    // Retrieve the current bytecode sequence for inspection or execution
+    const std::vector<std::string>& GetBytecode() const {
+        return bytecode;
+    }
+};
+
 struct Symbol {
     std::string name;
     SymbolScope scope;
