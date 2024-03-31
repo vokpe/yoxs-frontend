@@ -43,12 +43,28 @@ function FetchCodeSampleViaID() {
     const [number, setNumber] = useState({
         IDNumber: "",
         errors: {},
+        loading: false,
 });
 
     const changeNumber = (event) => { const {value} = (event.target); };
   
     const IDSubmit = (event) => {
         event.preventDefault();
+
+        setNumber({
+            ...number,
+            loading: true,
+        });
+
+        setTimeout(() => {
+            console.log(number);
+            setNumber({
+                ...number,
+                loading: false,
+            });
+        }, 2000);
+        
+
         if (validateForm()) {
             console.log(setNumber);
         } else {
@@ -76,7 +92,10 @@ function FetchCodeSampleViaID() {
         </label>
         <input type="number" id="number" value={setNumber.IDNumber} onChange={changeNumber} />
         <button type="button" onClick={cancel}>Cancel</button>
-        <button type="submit" onClick={IDSubmit}>Submit</button>
+        <input type="submit" value="Submit" disabled={setNumber.loading}/>
+        {setNumber.loading && (
+            <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
+        )}
       </form>
     );
 }
