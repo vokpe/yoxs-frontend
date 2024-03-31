@@ -40,31 +40,33 @@ AddGameForm.propTypes = {
 };
 
 function FetchCodeSampleViaID() {
-    const [number, setNumber] = useState(0);
+    const [number, setNumber] = useState({
+        IDNumber: "",
+        errors: {},
+});
 
-    const changeNumber = (event) => { setNumber(event.target.value); };
+    const changeNumber = (event) => { const {value} = (event.target); };
   
     const IDSubmit = (event) => {
         event.preventDefault();
         if (validateForm()) {
-            console.log(formData);
-          } else {
+            console.log(setNumber);
+        } else {
             
-          }
-        console.log(formData);
+        }
     };
 
     const validateForm = () => {
         const errors = {};
     
-        if (!formData.setNumber) {
+        if (!setNumber.IDNumber) {
           errors.setNumber = "ID Input is required";
         }
     
-        setFormData((prevState) => ({ ...prevState, errors }));
+        setNumber((prevState) => ({ ...prevState, errors }));
     
         return Object.keys(errors).length === 0;
-      };
+    };
     
     if (!visible) return null;
     return (
@@ -72,7 +74,7 @@ function FetchCodeSampleViaID() {
         <label>
             Enter Code Sample ID:
         </label>
-        <input type="number" id="number" value={name} onChange={changeNumber} />
+        <input type="number" id="number" value={setNumber.IDNumber} onChange={changeNumber} />
         <button type="button" onClick={cancel}>Cancel</button>
         <button type="submit" onClick={IDSubmit}>Submit</button>
       </form>
