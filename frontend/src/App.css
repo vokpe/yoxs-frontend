@@ -1,8 +1,8 @@
 .App {
   text-align: center;
-  font-family: 'Arial', sans-serif; 
+  font-family: 'Arial', sans-serif;
   padding: 20px;
-  color: #333; 
+  color: #333;
 }
 
 .App-logo {
@@ -28,48 +28,44 @@
 }
 
 .interpreter-container {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* shadowing */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: auto;
   padding: 30px;
-  max-width: 800px; /* set max-width of the container */
+  max-width: 800px;
   background-color: #c5bec8;
 }
 
 .input-area, .output-area {
-  background-color: white; 
-  border: 50px solid white; 
+  background-color: white;
+  border: 50px solid white;
   padding: 50px;
-  margin-bottom: 20px; /* add space between the input and output areas */
+  margin-bottom: 20px;
 }
 
 .button-area {
-  margin-bottom: 20px; /* add space between the buttons and the output area */
+  margin-bottom: 20px;
 }
 
-/* specific button styles */
 .button-area button {
-  background-color: #FFF; /* white background */
-  color: #333; /* Dark text */
-  padding: 10px 20px; /* Padding inside the button */
-  margin-right: 10px; /* space between buttons */
-  font-weight: bold; 
-  cursor: pointer; 
-  position: relative; 
+  background-color: #FFF;
+  color: #333;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
   border: 2px solid transparent;
-  box-shadow: -4px 5px 0px rgba(0, 0, 0, 200); /* Shadow offset to the left */
-  font-size: 10px; 
+  box-shadow: -4px 5px 0px rgba(0, 0, 0, 0.2); /* Adjusted shadow for subtlety */
+  font-size: 10px;
 }
-
-
-
 
 .button-area button:last-child {
   margin-right: 0;
 }
 
 .button-area button:hover {
-  background-color: #333; /* change on hover */
-  color: #FFF; /* text change on hover */
+  background-color: #333;
+  color: #FFF;
 }
 
 .App-link {
@@ -90,4 +86,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Enhancements for text readability */
+body {
+  font-size: 16px; /* Adjust base font size for better readability */
+  line-height: 1.6; /* Improve line spacing */
+  color: #333; /* Ensured contrast for readability */
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
