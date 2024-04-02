@@ -15,8 +15,9 @@ const InterpreterUI = () => {
     setIsLoading(true);
     try {
       // Assuming the backend expects a POST request with the user code
-      const response = await axios.post(`${BACKEND_URL}/execute`, { code: userCode });
-      setExecutionResult(response.data.result); // Adjust based on how your backend sends back the result
+      const response = await axios.post(`${BACKEND_URL}/code/compile`, { code: userCode });
+      console.log(response.data)
+      setExecutionResult(response.data.output); // Adjust based on how your backend sends back the result
     } catch (error) {
       console.error("There was an error executing the code:", error);
       setExecutionResult("Error executing code. Please try again.");
