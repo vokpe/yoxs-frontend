@@ -153,7 +153,20 @@ function FetchCodeSampleViaName() {
         return Object.keys(errors).length === 0;
     };
     
-    
+    if (!visible) return null;
+    return (
+      <form onSubmit={IDSubmit}>
+        <label>
+            Enter Code Sample Name:
+        </label>
+        <input type="name" id="name" value={setName.SampleName} onChange={handleChange} />
+        <button type="button" onClick={cancel}>Cancel</button>
+        <input type="submit" value="Submit" disabled={setName.loading}/>
+        {setName.loading && (
+            <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
+        )}
+      </form>
+    );
 }
 FetchCodeSampleViaID.propTypes = {
     visible: propTypes.bool.isRequired,
