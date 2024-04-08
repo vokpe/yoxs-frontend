@@ -105,6 +105,75 @@ FetchCodeSampleViaID.propTypes = {
     setError: propTypes.func.isRequired,
 };
 
+function FetchCodeSampleViaName() {
+    const [name, setName] = useState({
+        SampleName: "",
+        errors: {},
+        loading: false,
+});
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
+    };
+  
+    const NameSubmit = (event) => {
+        event.preventDefault();
+
+        setName({
+            ...name,
+            loading: true,
+        });
+
+        setTimeout(() => {
+            console.log(name);
+            setName({
+                ...name,
+                loading: false,
+            });
+        }, 2000);
+        
+
+        if (validateForm()) {
+            console.log(setName);
+        } else {
+            
+        }
+    };
+
+    const validateForm = () => {
+        const errors = {};
+    
+        if (!setName.SampleName) {
+          errors.setName = "Sample Name Input is required";
+        }
+    
+        setNumber((prevState) => ({ ...prevState, errors }));
+    
+        return Object.keys(errors).length === 0;
+    };
+    
+    if (!visible) return null;
+    return (
+      <form onSubmit={IDSubmit}>
+        <label>
+            Enter Code Sample Name:
+        </label>
+        <input type="name" id="name" value={setName.SampleName} onChange={handleChange} />
+        <button type="button" onClick={cancel}>Cancel</button>
+        <input type="submit" value="Submit" disabled={setName.loading}/>
+        {setName.loading && (
+            <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
+        )}
+      </form>
+    );
+}
+FetchCodeSampleViaID.propTypes = {
+    visible: propTypes.bool.isRequired,
+    cancel: propTypes.func.isRequired,
+    setError: propTypes.func.isRequired,
+};
+
 function CodeSample({ codesample }) {
     const { name, codeSampleID } = codesample;
     return (
