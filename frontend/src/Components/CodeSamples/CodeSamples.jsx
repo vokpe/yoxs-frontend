@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const [name, setName] = useState();
@@ -9,7 +10,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const changeName = (event) => { setName(event.target.value);};
     const changeNumber = (event) => { setNumber(event.target.value);};
 
-    const addCodeSample = () => {
+    const addCodeSample = (event) => {
         event.preventDefault();
         axios.post('http://localhost:8000/codesamples', { name: name, codeSampleID: number })
             .then(fetchCodeSamples)
@@ -32,7 +33,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
         </form>
     );
 }
-AddGameForm.propTypes = {
+AddCodeSampleForm.propTypes = {
     visible: propTypes.bool.isRequired,
     cancel: propTypes.func.isRequired,
     fetchCodeSamples: propTypes.func.isRequired,
@@ -46,7 +47,13 @@ function FetchCodeSampleViaID() {
         loading: false,
 });
 
-    const changeNumber = (event) => { const {value} = (event.target); };
+    const changeNumber = (event) => {
+        const { value } = event.target;
+        setNumber((prevState) => ({
+            ...prevState,
+            IDNumber: value,
+        }));
+    };
   
     const IDSubmit = (event) => {
         event.preventDefault();
@@ -110,7 +117,7 @@ function FetchCodeSampleViaName() {
         SampleName: "",
         errors: {},
         loading: false,
-});
+    });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -168,11 +175,6 @@ function FetchCodeSampleViaName() {
       </form>
     );
 }
-FetchCodeSampleViaID.propTypes = {
-    visible: propTypes.bool.isRequired,
-    cancel: propTypes.func.isRequired,
-    setError: propTypes.func.isRequired,
-};
 
 function CodeSample({ codesample }) {
     const { name, codeSampleID } = codesample;
@@ -194,10 +196,11 @@ CodeSample.propTypes = {
     }).isRequired,
 };
 
-function codesamplesObjectToArray({ Data }) {
-    const keys = Object.keys(Data);
-    const codesamples = keys.map((key) => Data[key]);
-    return codesamples;
+function codesamplesObjectToArray(data) {
+    return Object.keys(data).map((key) => ({
+        ...data[key],
+        id: key // is each key an ID?
+    }));
 }
 
 function CodeSamples() {
@@ -214,24 +217,30 @@ function CodeSamples() {
     const showAddCodeSample = () => { setAddingCodeSample(true); };
     const hideAddCodeSample = () => { setAddingCodeSample(false); };
 
-    useEffect (fetchCodeSamples, []);
+    useEffect(() => {
+        fetchCodeSamples();
+    }, []);
 
     return (
         <div className="wrapper">
-            <h1>
-                Code Examples For Interpreter
-            </h1>
+            <h1>Code Examples For Interpreter</h1>
             <button type="button" onClick={showAddCodeSample}>
                 Add a Code Sample
             </button>
-            {error && (
-                <div className="error message">
-                {error}
-                </div>
-            )}
-            <AddCodeSampleForm visible={addingCodeSample} setError={setError} cancel={hideAddCodeSample} fetchCodeSamples={fetchCodeSamples}/>
+            {error && <ErrorMessage message={error} />}
+            <AddCodeSampleForm
+                visible={addingCodeSample}
+                setError={setError}
+                cancel={hideAddCodeSample}
+                fetchCodeSamples={fetchCodeSamples}
+            />
+            <div className="codesample-list">
+                {samples.map((sample, index) => (
+                    <CodeSample key={index} codesample={sample} />
+                ))}
+            </div>
         </div>
-    )
+    );
 }
 
 
