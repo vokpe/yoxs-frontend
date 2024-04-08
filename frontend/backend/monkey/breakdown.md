@@ -62,3 +62,30 @@ Our interpreter will have a few major parts
 - the internal object system
 - the evaluator
 
+## Chapter 1.1: Lexical Analysis
+
+![alt text](fig1.png)
+
+The first transformation from source code to tokens, is called `lexical analysis` or `lexing`. It is done by a lexer (aka tokenizer or scanner). Tokens themselves are small & easily categorizable data structures that are then fed to the parser, which does the second transformation to turn tokens into an "Abstract Syntax Tree".
+
+For example: 
+
+```js
+"let x = 5 + 5;" 
+```
+when put into the lexer will generate:
+```js
+[
+    LET,
+    IDENTIFIER("x"),
+    EQUAL_SIGN,
+    INTEGER(5),
+    PLUS_SIGN,
+    INTEGER(5),
+    SEMICOLON
+]
+```
+
+Note: whitespace length is not converted to tokens, and are ignored. 
+
+## 1.2 - Defining Our Tokens
