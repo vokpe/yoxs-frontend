@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+
 function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const [name, setName] = useState();
     const [number, setNumber] = useState(0);
@@ -19,19 +20,27 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
 
     if (!visible) return null;
     return (
-        <form>
-            <label htmlFor="name">
-                Name
-            </label>
-            <input type="text" id="name" value={name} onChange={changeName} />
-            <label htmlFor="number">
-                ID
-            </label>
-            <input type="number" id="number" value={name} onChange={changeNumber} />
-            <button type="button" onClick={cancel}>Cancel</button>
-            <button type="submit" onClick={addCodeSample}>Submit</button>
-        </form>
-    );
+        <div className="interpreter-container">
+          <form className="input-area">
+            <div className="form-group">
+              <label htmlFor="name" className="form-label">
+                Name:
+              </label>
+              <input type="text" id="name" className="form-control" value={name} onChange={changeName} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="number" className="form-label">
+                ID:
+              </label>
+              <input type="number" id="number" className="form-control" value={number} onChange={changeNumber} />
+            </div>
+            <div className="button-area">
+              <button type="button" className="btn" onClick={cancel}>Cancel</button>
+              <button type="submit" className="btn" onClick={addCodeSample}>Submit</button>
+            </div>
+          </form>
+        </div>
+      );
 }
 AddCodeSampleForm.propTypes = {
     visible: propTypes.bool.isRequired,
@@ -90,6 +99,12 @@ function FetchCodeSampleViaID() {
     
         return Object.keys(errors).length === 0;
     };
+
+    const [visible, setVisible] = useState(true);
+
+    const cancel = () => {
+        setVisible(false);
+    }
     
     if (!visible) return null;
     return (
@@ -111,70 +126,6 @@ FetchCodeSampleViaID.propTypes = {
     cancel: propTypes.func.isRequired,
     setError: propTypes.func.isRequired,
 };
-
-function FetchCodeSampleViaName() {
-    const [name, setName] = useState({
-        SampleName: "",
-        errors: {},
-        loading: false,
-    });
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prevState) => ({ ...prevState, [name]: value }));
-    };
-  
-    const NameSubmit = (event) => {
-        event.preventDefault();
-
-        setName({
-            ...name,
-            loading: true,
-        });
-
-        setTimeout(() => {
-            console.log(name);
-            setName({
-                ...name,
-                loading: false,
-            });
-        }, 2000);
-        
-
-        if (validateForm()) {
-            console.log(setName);
-        } else {
-            
-        }
-    };
-
-    const validateForm = () => {
-        const errors = {};
-    
-        if (!setName.SampleName) {
-          errors.setName = "Sample Name Input is required";
-        }
-    
-        setNumber((prevState) => ({ ...prevState, errors }));
-    
-        return Object.keys(errors).length === 0;
-    };
-    
-    if (!visible) return null;
-    return (
-      <form onSubmit={IDSubmit}>
-        <label>
-            Enter Code Sample Name:
-        </label>
-        <input type="name" id="name" value={setName.SampleName} onChange={handleChange} />
-        <button type="button" onClick={cancel}>Cancel</button>
-        <input type="submit" value="Submit" disabled={setName.loading}/>
-        {setName.loading && (
-            <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
-        )}
-      </form>
-    );
-}
 
 function CodeSample({ codesample }) {
     const { name, codeSampleID } = codesample;
