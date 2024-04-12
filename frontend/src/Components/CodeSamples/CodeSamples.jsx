@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { BACKEND_URL } from '../../constants';
 
 
 function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
@@ -13,7 +14,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
 
     const addCodeSample = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8000/codesamples', { name: name, codeSampleID: number })
+        axios.post(`${BACKEND_URL}/code/db_content`, { name: name, code: number })
             .then(fetchCodeSamples)
             .catch(() => { setError('There was a problem adding the code form.'); });
     };
@@ -160,7 +161,7 @@ function CodeSamples() {
     const [addingCodeSample, setAddingCodeSample] = useState(false);
 
     const fetchCodeSamples = () => {
-        axios.get('http://localhost:8000/codesamples')
+        axios.get(`${BACKEND_URL}/code/db_content`)
                 .then(({ data }) => setSamples(codesamplesObjectToArray(data)))
                 .catch(() => setError('Something went wrong when retrieving the code samples'));
     };
