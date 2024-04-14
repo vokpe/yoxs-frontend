@@ -7,10 +7,10 @@ import { BACKEND_URL } from '../../constants';
 
 function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
     const [name, setName] = useState();
-    const [number, setNumber] = useState(0);
+    const [number, setID] = useState(0);
 
     const changeName = (event) => { setName(event.target.value);};
-    const changeNumber = (event) => { setNumber(event.target.value);};
+    const changeNumber = (event) => { setID(event.target.value);};
 
     const addCodeSample = (event) => {
         event.preventDefault();
@@ -51,52 +51,51 @@ AddCodeSampleForm.propTypes = {
 };
 
 function FetchCodeSampleViaID() {
-    const [number, setNumber] = useState({
-        IDNumber: "",
+    const [number, setID] = useState({
+        IDNumber: 0,
         errors: {},
         loading: false,
 });
 
-    const changeNumber = (event) => {
-        const { value } = event.target;
-        setNumber((prevState) => ({
+    const changeID = (event) => {
+        // Parse the value as a number before setting the state
+        const newValue = parseInt(event.target.value, 10); 
+        setID((prevState) => ({
             ...prevState,
-            IDNumber: value,
+            value: newValue, // Update the value of id
         }));
     };
   
     const IDSubmit = (event) => {
         event.preventDefault();
 
-        setNumber({
-            ...number,
+        setID((prevState) => ({
+            ...prevState,
             loading: true,
-        });
+        }));
 
         setTimeout(() => {
-            console.log(number);
-            setNumber({
-                ...number,
+            console.log(number.value); // Log the value of id
+            setID((prevState) => ({
+                ...prevState,
                 loading: false,
-            });
+            }));
         }, 2000);
         
 
         if (validateForm()) {
-            console.log(setNumber);
-        } else {
-            
+            console.log(setID);
         }
     };
 
     const validateForm = () => {
         const errors = {};
     
-        if (!setNumber.IDNumber) {
-          errors.setNumber = "ID Input is required";
+        if (!setID.IDNumber) {
+          errors.setID = "ID Input is required";
         }
     
-        setNumber((prevState) => ({ ...prevState, errors }));
+        setID((prevState) => ({ ...prevState, errors }));
     
         return Object.keys(errors).length === 0;
     };
@@ -113,10 +112,10 @@ function FetchCodeSampleViaID() {
         <label>
             Enter Code Sample ID:
         </label>
-        <input type="number" id="number" value={setNumber.IDNumber} onChange={changeNumber} />
+        <input type="number" id="number" value={setID.IDNumber} onChange={changeID} />
         <button type="button" onClick={cancel}>Cancel</button>
-        <input type="submit" value="Submit" disabled={setNumber.loading}/>
-        {setNumber.loading && (
+        <input type="submit" value="Submit" disabled={setID.loading}/>
+        {setID.loading && (
             <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
         )}
       </form>
@@ -129,16 +128,16 @@ FetchCodeSampleViaID.propTypes = {
 };
 
 function CodeSample({ codesample }) {
-    const { name, codeSampleID } = codesample;
+    const { name, id: codeSampleID } = codesample;
+    console.log(codesample)
     return (
       <Link to={name}>
         <div className="codesample-container">
           <h2>{name}</h2>
-          <p>
-            Code Sample ID: {codeSampleID}
-          </p>
+          <p>Code Sample ID: {codeSampleID}</p>
         </div>
       </Link>
+        
     );
   }
 CodeSample.propTypes = {
