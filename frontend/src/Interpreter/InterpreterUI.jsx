@@ -9,29 +9,34 @@ const InterpreterUI = () => {
 
   const handleUserCodeChange = (event) => {
     setUserCode(event.target.value);
-    // Clear the executionResult as soon as the user starts typing again
-    if(executionResult !== '') {
+    if (executionResult !== '') {
       setExecutionResult('');
     }
   };
 
+  const logExecutionDetails = (message) => {
+    console.log(message);  // This could be enhanced to send logs to a backend
+  };
+
   const executeUserCode = async () => {
     setIsLoading(true);
+    logExecutionDetails("Execution started with user code: " + userCode);
     try {
       const response = await axios.post(`${BACKEND_URL}/code/compile`, { code: userCode });
-      console.log(response.data); // Logging the response for debugging
-      setExecutionResult(response.data.output); // Adjust based on how your backend sends back the result
+      setExecutionResult(response.data.output);
+      logExecutionDetails("Execution successful: " + response.data.output);
     } catch (error) {
       console.error("There was an error executing the code:", error);
       setExecutionResult("Error executing code. Please try again.");
+      logExecutionDetails("Execution error: " + error.message);
     }
     setIsLoading(false);
+    logExecutionDetails("Execution finished.");
   };
 
   return (
     <div className="interpreter-container">
       <div className="button-area">
-        {/* Future functionality for these buttons */}
         <button>IMPORT</button>
         <button>SAVE</button>
         <button onClick={executeUserCode}>PARSE</button>
