@@ -139,3 +139,28 @@ const (
     LET = "LET"
 )
 ```
+
+## 1.3 - The Lexer 
+
+The lexer will take source code and input and output tokens that represent the source code. It will go through its input and output the next token it recognizes. It doesn't need to buffer or save tokens, since there will only be one method called `NextToken()` which will output the next token. 
+
+We will initialize the lexer with our source code and then repeatedly call `NextToken()` on it to go through the source code, token by token, character by character. 
+
+lets start with our constructor
+
+```go
+// lexer/lexer.go
+package lexer
+
+type Lexer struct {
+    input string
+    position int // current position in input (points to current char)
+    readPosition int // current reading position in input (after current char)
+    ch byte // current char under examination
+}
+
+func New(input string) *Lexer {
+    l := &Lexer{input: input}
+    return l
+}
+```
