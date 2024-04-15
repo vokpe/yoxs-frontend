@@ -89,3 +89,53 @@ when put into the lexer will generate:
 Note: whitespace length is not converted to tokens, and are ignored. 
 
 ## 1.2 - Defining Our Tokens
+
+```js
+let five = 5;
+let ten = 10;
+let add = fn(x, y) {
+    x + y;
+};
+
+let result = add(five, ten);
+```
+This example contains numbers like 5 and 10 which will be a `integer token`. Then we have the variable names `x`, `y`, and `words`. as well as assignment / functions `let` and `fn`. 
+
+In the lexer or parser we dont care if the number is 5 or 10, we just want to know if its a number. The same goes for `variable names`, we will call them `identifiers` and treat them the same. The ones that look like identifiers, but aren't really identifiers since they're apart of the language will be called `keywords`. 
+
+We will not group them together because it **should** make a diff in the parsing stage whether we encounter a `let` or `fn`. Finally we will categorize special characters separately, since it matters if we have a `{` or `}` in the source code. 
+
+Lets define our `Token` data structure. we need a `type` attribute to differentiate between `integers` and `right bracket` for example. And it needs a field that holds the literal value of the token so we can reuse it later. 
+
+```go
+// token/token.go
+package token
+
+type TokenType string
+
+type Token struct {
+    Type TokenType
+    Literal string
+}
+
+const (
+    ILLEGAL = "ILLEGAL" //unrecognized tokens
+    EOF = "EOF" // end of file
+    // Identifiers + literals
+    IDENT = "IDENT" // add, foobar, x, y, ...
+    INT = "INT" // 1343456
+    // Operators
+    ASSIGN = "="
+    PLUS = "+"
+    // Delimiters
+    COMMA = ","
+    SEMICOLON = ";"
+    LPAREN = "("
+    RPAREN = ")"
+    LBRACE = "{"
+    RBRACE = "}"
+    // Keywords
+    FUNCTION = "FUNCTION"
+    LET = "LET"
+)
+```
