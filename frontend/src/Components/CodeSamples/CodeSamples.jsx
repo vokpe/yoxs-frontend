@@ -129,15 +129,13 @@ FetchCodeSampleViaID.propTypes = {
 
 function CodeSample({ codesample }) {
     const { name, id: codeSampleID } = codesample;
-    console.log(codesample)
     return (
-      <Link to={name}>
-        <div className="codesample-container">
-          <h2>{name}</h2>
+      <div className="card">
+        <div className="card-content">
+          <Link to={`/code-samples/${codeSampleID}`} className="card-name">{name}</Link>
           <p>Code Sample ID: {codeSampleID}</p>
         </div>
-      </Link>
-        
+      </div>
     );
   }
 CodeSample.propTypes = {
@@ -175,9 +173,11 @@ function CodeSamples() {
     return (
         <div className="wrapper">
             <h1>Code Examples For Interpreter</h1>
-            <button type="button" onClick={showAddCodeSample}>
+            <div className="button-area">
+                <button type="button" onClick={showAddCodeSample}>
                 Add a Code Sample
-            </button>
+                </button>
+            </div>
             {error && <ErrorMessage message={error} />}
             <AddCodeSampleForm
                 visible={addingCodeSample}
@@ -185,7 +185,7 @@ function CodeSamples() {
                 cancel={hideAddCodeSample}
                 fetchCodeSamples={fetchCodeSamples}
             />
-            <div className="codesample-list">
+            <div className="card-container">
                 {samples.map((sample, index) => (
                     <CodeSample key={index} codesample={sample} />
                 ))}
