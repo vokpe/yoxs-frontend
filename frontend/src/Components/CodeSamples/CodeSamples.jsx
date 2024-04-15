@@ -172,19 +172,24 @@ function CodeSamples() {
 
     return (
         <div className="wrapper">
-          <h1>Code Examples For Interpreter</h1>
-          <button type="button" onClick={showAddCodeSample}>
-            Add a Code Sample
-          </button>
-          {error && <ErrorMessage message={error} />}
-          <AddCodeSampleForm
-            // ...props
-          />
-          <div className="card-container">
-            {samples.map((sample, index) => (
-              <CodeSample key={index} codesample={sample} />
-            ))}
-          </div>
+            <h1>Code Examples For Interpreter</h1>
+            <div className="button-area">
+                <button type="button" onClick={showAddCodeSample}>
+                Add a Code Sample
+                </button>
+            </div>
+            {error && <ErrorMessage message={error} />}
+            <AddCodeSampleForm
+                visible={addingCodeSample}
+                setError={setError}
+                cancel={hideAddCodeSample}
+                fetchCodeSamples={fetchCodeSamples}
+            />
+            <div className="card-container">
+                {samples.map((sample, index) => (
+                    <CodeSample key={index} codesample={sample} />
+                ))}
+            </div>
         </div>
     );
 }
