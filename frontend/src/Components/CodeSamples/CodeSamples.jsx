@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { BACKEND_URL } from '../../constants';
 
+// Helper function to fetch code content by name
+function getCodeContentByName(name) {
+    return axios.get(`${BACKEND_URL}/code/id_by_name`, { params: { name } })
+        .then(response => {
+            const codeSampleID = response.data; // Assuming the response contains the ID directly
+            return axios.get(`${BACKEND_URL}/code/${codeSampleID}`);
+        })
+        .then(response => {
+            return response.data.code; // Assuming 'code' contains the actual code
+        })
+        .catch(error => {
+            console.error("Error fetching code content:", error);
+            throw error;
+        });
+}
 
-function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
-    const [name, setName] = useState('');  // Initialize name as an empty string
-    const [code, setCode] = useState('');  // Initialize code as an empty string
+function AddCodeSampleForm({ visible, setError, fetchCodeSamples, cancel }) {
+    const [name, setName] = useState('');
+    const [code, setCode] = useState('');
 
     const changeName = (event) => {
         setName(event.target.value);
@@ -19,7 +33,7 @@ function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
 
     const addCodeSample = (event) => {
         event.preventDefault();
-        axios.post(`${BACKEND_URL}/code/db_content`, { name: name, code: code })
+        axios.post(`${BACKEND_URL}/code/db_content`, { name, code })
             .then(fetchCodeSamples)
             .catch(() => { setError('There was a problem adding the code sample.'); });
     };
@@ -56,122 +70,50 @@ AddCodeSampleForm.propTypes = {
     setError: propTypes.func.isRequired,
 };
 
+function CodeSample({ name }) {
+    const [codeContent, setCodeContent] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
-function FetchCodeSampleViaID() {
-    const [number, setID] = useState({
-        IDNumber: 0,
-        errors: {},
-        loading: false,
-});
+    useEffect(() => {
+        setIsLoading(true);
+        getCodeContentByName(name)
+            .then(code => {
+                setCodeContent(code);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                setError('Failed to fetch code sample');
+                setIsLoading(false);
+            });
+    }, [name]);
 
-    const changeID = (event) => {
-        // Parse the value as a number before setting the state
-        const newValue = parseInt(event.target.value, 10); 
-        setID((prevState) => ({
-            ...prevState,
-            value: newValue, // Update the value of id
-        }));
-    };
-  
-    const IDSubmit = (event) => {
-        event.preventDefault();
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
-        setID((prevState) => ({
-            ...prevState,
-            loading: true,
-        }));
-
-        setTimeout(() => {
-            console.log(number.value); // Log the value of id
-            setID((prevState) => ({
-                ...prevState,
-                loading: false,
-            }));
-        }, 2000);
-        
-
-        if (validateForm()) {
-            console.log(setID);
-        }
-    };
-
-    const validateForm = () => {
-        const errors = {};
-    
-        if (!setID.IDNumber) {
-          errors.setID = "ID Input is required";
-        }
-    
-        setID((prevState) => ({ ...prevState, errors }));
-    
-        return Object.keys(errors).length === 0;
-    };
-
-    const [visible, setVisible] = useState(true);
-
-    const cancel = () => {
-        setVisible(false);
-    }
-    
-    if (!visible) return null;
     return (
-      <form onSubmit={IDSubmit}>
-        <label>
-            Enter Code Sample ID:
-        </label>
-        <input type="number" id="number" value={setID.IDNumber} onChange={changeID} />
-        <button type="button" onClick={cancel}>Cancel</button>
-        <input type="submit" value="Submit" disabled={setID.loading}/>
-        {setID.loading && (
-            <div style={{ marginTop: 5, fontWeight: "bold" }}>Loading...</div>
-        )}
-      </form>
-    );
-}
-FetchCodeSampleViaID.propTypes = {
-    visible: propTypes.bool.isRequired,
-    cancel: propTypes.func.isRequired,
-    setError: propTypes.func.isRequired,
-};
-
-function CodeSample({ codesample }) {
-    const { name, id: codeSampleID } = codesample;
-    return (
-      <div className="card">
-        <div className="card-content">
-          <Link to={`/code-samples/${codeSampleID}`} className="card-name">{name}</Link>
-          <p>Code Sample ID: {codeSampleID}</p>
+        <div className="card">
+            <div className="card-content">
+                <h4>{name}</h4>
+                <pre>{codeContent}</pre>
+            </div>
         </div>
-      </div>
     );
-  }
-CodeSample.propTypes = {
-    codesample: propTypes.shape({
-        name: propTypes.string.isRequired,
-        codeSampleID: propTypes.number.isRequired,
-    }).isRequired,
-};
-
-function codesamplesObjectToArray(data) {
-    return Object.keys(data).map((key) => ({
-        ...data[key],
-        id: key // is each key an ID?
-    }));
 }
+CodeSample.propTypes = {
+    name: propTypes.string.isRequired,
+};
 
 function CodeSamples() {
-    const [error, setError] = useState('');
     const [samples, setSamples] = useState([]);
+    const [error, setError] = useState('');
     const [addingCodeSample, setAddingCodeSample] = useState(false);
 
     const fetchCodeSamples = () => {
         axios.get(`${BACKEND_URL}/code/db_content`)
-                .then(({ data }) => setSamples(codesamplesObjectToArray(data)))
-                .catch(() => setError('Something went wrong when retrieving the code samples'));
+            .then(({ data }) => setSamples(data))
+            .catch(() => setError('Something went wrong when retrieving the code samples'));
     };
-
-    const showAddCodeSample = () => { setAddingCodeSample(true); };
-    const hideAddCodeSample = () => { setAddingCodeSample(false); };
 
     useEffect(() => {
         fetchCodeSamples();
@@ -181,33 +123,26 @@ function CodeSamples() {
         <div className="wrapper">
             <h1>Code Examples For Interpreter</h1>
             <div className="button-area">
-                <button type="button" onClick={showAddCodeSample}>
-                Add a Code Sample
-                </button>
+                <button type="button" onClick={() => setAddingCodeSample(true)}>Add a Code Sample</button>
             </div>
             {error && <ErrorMessage message={error} />}
             <AddCodeSampleForm
                 visible={addingCodeSample}
                 setError={setError}
-                cancel={hideAddCodeSample}
+                cancel={() => setAddingCodeSample(false)}
                 fetchCodeSamples={fetchCodeSamples}
             />
             <div className="card-container">
-                {samples.map((sample, index) => (
-                    <CodeSample key={index} codesample={sample} />
+                {samples.map((sample) => (
+                    <CodeSample key={sample.id} name={sample.name} />
                 ))}
             </div>
         </div>
     );
 }
 
-
 function ErrorMessage({ message }) {
-    return (
-        <div className="error-message">
-            {message}
-        </div>
-    );
+    return <div className="error-message">{message}</div>;
 }
 ErrorMessage.propTypes = {
     message: propTypes.string.isRequired,
