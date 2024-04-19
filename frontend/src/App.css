@@ -114,8 +114,10 @@ code {
   border: 1px solid #eeeeee;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: hidden; /* Makes sure the content doesn't overflow the boundary of the card */
   transition: box-shadow 0.3s ease-in-out;
+  position: relative;
+  padding: 20px; /* Added padding for inner spacing */
 }
 
 .card:hover {
@@ -124,6 +126,14 @@ code {
 
 .card-content {
   padding: 1rem;
+  overflow-x: auto; /* Allows horizontal scrolling if content is too wide */
+}
+
+.card-content pre {
+  white-space: pre-wrap; /* Wraps the text to fit the container width */
+  word-break: break-word; /* Ensures words do not overflow the container */
+  overflow-wrap: break-word; /* Helps break words to prevent overflow */
+  max-width: 100%; /* Ensures pre tag does not exceed card content width */
 }
 
 .card-name {
