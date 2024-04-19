@@ -6,42 +6,48 @@ import { BACKEND_URL } from '../../constants';
 
 
 function AddCodeSampleForm({visible, setError, fetchCodeSamples, cancel}) {
-    const [name, setName] = useState();
-    const [number, setID] = useState(0);
+    const [name, setName] = useState('');  // Initialize name as an empty string
+    const [code, setCode] = useState('');  // Initialize code as an empty string
 
-    const changeName = (event) => { setName(event.target.value);};
-    const changeNumber = (event) => { setID(event.target.value);};
+    const changeName = (event) => {
+        setName(event.target.value);
+    };
+
+    const changeCode = (event) => {
+        setCode(event.target.value);
+    };
 
     const addCodeSample = (event) => {
         event.preventDefault();
-        axios.post(`${BACKEND_URL}/code/db_content`, { name: name, code: number })
+        axios.post(`${BACKEND_URL}/code/db_content`, { name: name, code: code })
             .then(fetchCodeSamples)
-            .catch(() => { setError('There was a problem adding the code form.'); });
+            .catch(() => { setError('There was a problem adding the code sample.'); });
     };
 
     if (!visible) return null;
+
     return (
         <div className="interpreter-container">
-          <form className="input-area">
-            <div className="form-group">
-              <label htmlFor="name" className="form-label">
-                Name:
-              </label>
-              <input type="text" id="name" className="form-control" value={name} onChange={changeName} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="number" className="form-label">
-                ID:
-              </label>
-              <input type="number" id="number" className="form-control" value={number} onChange={changeNumber} />
-            </div>
-            <div className="button-area">
-              <button type="button" className="btn" onClick={cancel}>Cancel</button>
-              <button type="submit" className="btn" onClick={addCodeSample}>Submit</button>
-            </div>
-          </form>
+            <form className="input-area" onSubmit={addCodeSample}>
+                <div className="form-group">
+                    <label htmlFor="name" className="form-label">
+                        Name:
+                    </label>
+                    <input type="text" id="name" className="form-control" value={name} onChange={changeName} required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="code" className="form-label">
+                        Code:
+                    </label>
+                    <textarea id="code" className="form-control" value={code} onChange={changeCode} required rows="4" />
+                </div>
+                <div className="button-area">
+                    <button type="button" className="btn" onClick={cancel}>Cancel</button>
+                    <button type="submit" className="btn">Submit</button>
+                </div>
+            </form>
         </div>
-      );
+    );
 }
 AddCodeSampleForm.propTypes = {
     visible: propTypes.bool.isRequired,
@@ -49,6 +55,7 @@ AddCodeSampleForm.propTypes = {
     fetchCodeSamples: propTypes.func.isRequired,
     setError: propTypes.func.isRequired,
 };
+
 
 function FetchCodeSampleViaID() {
     const [number, setID] = useState({
