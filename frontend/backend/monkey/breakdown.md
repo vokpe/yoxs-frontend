@@ -219,5 +219,51 @@ func newToken(tokenType token.TokenType, ch byte) token.Token {
 }
 ```
 
+To process `Identifiers` and `Keywords` we need to recognize if the current `ch` is a letter and if so, keep reading the rest of the token until its a non-letter character. Once we have read the entire kw/identifier, we need to identify which one it is and use the corresponding `token.TokenType`.
 
+```go
+// lexer/lexer.go
+import "monkey/token"
+func (l *Lexer) NextToken() token.Token {
+    var tok token.Token
+    switch l.ch {
+        // [...]
+        default:
+        if isLetter(l.ch) {
+            tok.Literal = l.readIdentifier()
+            return tok
+        } else {
+            tok = newToken(token.ILLEGAL, l.ch)
+        }
+    }
+    // [...]
+ }
+func (l *Lexer) readIdentifier() string {
+    position := l.position
+    for isLetter(l.ch) {
+        l.readChar()
+    }
+    return l.input[position:l.position]
+}
+func isLetter(ch byte) bool {
+    return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+```
 
+We add a default branch to our switch statement so that we can check for identifiers whenever `l.ch` is not one of our recognized characters. the `readIdentifier()` function reads an identifier and advances our lexer's positions until it encounters a non-letter character. 
+
+next to identify whether its a keyword or identifier we can create a function `LookupIdent()` to check the keywords table to see if its an identifier or keyword.
+
+```go
+// token/token.go
+var keywords = map[string]TokenType{
+    "fn": FUNCTION,
+    "let": LET,
+}
+func LookupIdent(ident string) TokenType {
+    if tok, ok := keywords[ident]; ok {
+        return tok
+    }
+    return IDENT
+}
+```
