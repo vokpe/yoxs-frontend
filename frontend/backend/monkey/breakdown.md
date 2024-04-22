@@ -164,3 +164,60 @@ func New(input string) *Lexer {
     return l
 }
 ```
+
+`readPosition` and `position` will be used as two "pointers" pointing to our 
+input string as an index (i.e. `l.input[l.readPosition]`). The reason we need two is because `readPosition` will allow us to "peek" furtner into the input to tell us what the future characters are. 
+
+```go
+// lexer/lexer.go
+func (l *Lexer) readChar() { // give us next character and advance our position in the input string
+    if l.readPosition >= len(l.input) { // checks if we have reached the end of the input
+        l.ch = 0 // 0 is ASCII for the "NUL" character used to denote "EOF" or "unitialized"
+    } else {
+        l.ch = l.input[l.readPosition]
+    }
+    l.position = l.readPosition
+    l.readPosition += 1
+}
+```
+
+Next, we will implement the `NextToken()` method. We will look at the current character under examination (l.ch) and return a token depending on which character it is. Before returning the token we advance our pointers as we go. A small helper function `newToken()` will initialize tokens. 
+
+```go
+// lexer/lexer.go
+package lexer
+import "monkey/token"
+func (l *Lexer) NextToken() token.Token {
+    var tok token.Token
+    switch l.ch {
+    case '=':
+        tok = newToken(token.ASSIGN, l.ch)
+    case ';':
+        tok = newToken(token.SEMICOLON, l.ch)
+    case '(':
+        tok = newToken(token.LPAREN, l.ch)
+    case ')':
+        tok = newToken(token.RPAREN, l.ch)
+    case ',':
+        tok = newToken(token.COMMA, l.ch)
+    case '+':
+        tok = newToken(token.PLUS, l.ch)
+    case '{':
+        tok = newToken(token.LBRACE, l.ch)
+    case '}':
+        tok = newToken(token.RBRACE, l.ch)
+    case 0:
+        tok.Literal = ""
+        tok.Type = token.EOF
+    }
+    l.readChar()
+    return tok
+}
+
+func newToken(tokenType token.TokenType, ch byte) token.Token {
+    return token.Token{Type: tokenType, Literal: string(ch)}
+}
+```
+
+
+
