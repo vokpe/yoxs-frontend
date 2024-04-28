@@ -245,6 +245,15 @@ func (l *Lexer) readIdentifier() string {
     }
     return l.input[position:l.position]
 }
+
+func (l *Lexer) readNumber() string {
+    position := l.position
+    for isDigit(l.ch) {
+        l.readChar()
+    }
+    return l.input[position:l.position]
+}
+
 func isLetter(ch byte) bool {
     return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
@@ -267,3 +276,28 @@ func LookupIdent(ident string) TokenType {
     return IDENT
 }
 ```
+
+We also add a couple of helper statements: Primarily `isLetter()` `skipWhitespace()` and `isDigit()`. `readNumber()` is basically readIdentifier but we use isDigit instead of isLetter. 
+
+## 1.4 Expanding our token set and lexer
+
+Support for: ==, !, !=, -, /, *, <, > and the keywords true, false, if, else and return.
+
+These can be categorized as:
+- one-char token (eg '-')
+- two-char token (eg '==')
+- kw token (eg 'return')
+
+Next, added constants and keywords to `token/token.go` and extend our switch statement in `lexer/lexer.go`. To add support for two-char tokens we can extend branches (look ahead to see if we return something diff) for our `!` and `=` operators. We will do this by implementing `peekChar()` which is similar to readChar except it doesnt increment our position counters. 
+
+```go
+// lexer/lexer.go
+func (l *Lexer) peekChar() byte { 
+    if l.readPosition >= len(l.input) {
+        return 0
+    } else {
+        return l.input[l.readPosition]
+    }
+}
+
+
