@@ -300,4 +300,30 @@ func (l *Lexer) peekChar() byte {
     }
 }
 
+func (l *Lexer) NextToken() token.Token {
+    // [...]
+    switch l.ch {
+    case '=':
+        if l.peekChar() == '=' {
+            ch := l.ch
+            l.readChar()
+            literal := string(ch) + string(l.ch)
+            tok = token.Token{Type: token.EQ, Literal: literal}
+        } else {
+            tok = newToken(token.ASSIGN, l.ch)
+        }
+        // [...]
+    case '!':
+        if l.peekChar() == '=' {
+            ch := l.ch
+            l.readChar()
+            literal := string(ch) + string(l.ch)
+            tok = token.Token{Type: token.NOT_EQ, Literal: literal}
+        } else {
+            tok = newToken(token.BANG, l.ch)
+        }
+    // [...]
+}
+```
 
+Note that we save l.ch in a local variable before calling l.readChar() again. This way we don’t lose the current character and can safely advance the lexer so it leaves the NextToken() with l.position and l.readPosition in the correct state.
