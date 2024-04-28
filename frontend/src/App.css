@@ -55,7 +55,7 @@
   cursor: pointer;
   position: relative;
   border: 2px solid transparent;
-  box-shadow: -4px 5px 0px rgba(0, 0, 0, 0.2); /* Adjusted shadow for subtlety */
+  box-shadow: -4px 5px 0px rgba(0, 0, 0, 0.2);
   font-size: 10px;
 }
 
@@ -88,11 +88,10 @@
   }
 }
 
-/* Enhancements for text readability */
 body {
-  font-size: 16px; /* Adjust base font size for better readability */
-  line-height: 1.6; /* Improve line spacing */
-  color: #333; /* Ensured contrast for readability */
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -114,10 +113,9 @@ code {
   border: 1px solid #eeeeee;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Makes sure the content doesn't overflow the boundary of the card */
+  overflow: hidden;
   transition: box-shadow 0.3s ease-in-out;
-  position: relative;
-  padding: 20px; /* Added padding for inner spacing */
+  
 }
 
 .card:hover {
@@ -126,14 +124,21 @@ code {
 
 .card-content {
   padding: 1rem;
-  overflow-x: auto; /* Allows horizontal scrolling if content is too wide */
+  overflow-x: auto; 
 }
 
 .card-content pre {
-  white-space: pre-wrap; /* Wraps the text to fit the container width */
-  word-break: break-word; /* Ensures words do not overflow the container */
-  overflow-wrap: break-word; /* Helps break words to prevent overflow */
-  max-width: 100%; /* Ensures pre tag does not exceed card content width */
+  white-space: pre-wrap; 
+  word-break: break-word; 
+  overflow-wrap: break-word; 
+  max-width: 100%; 
+  background-color: #f9f9f9; 
+  border-radius: 5px; 
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace; 
+  font-size: 0.85em; 
+  color: #333; 
+  border: 1px solid #ddd; 
 }
 
 .card-name {
@@ -142,4 +147,3 @@ code {
   text-decoration: none;
   margin-bottom: 0.5rem;
 }
-
