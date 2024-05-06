@@ -32,7 +32,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 The Interpreter feature enables you to write, parse, and debug custom code within the application.
 
 ### Using the Interpreter
-+ Access the Interpreter tab via the navbar.
++ Access the Interpreter tab via the navbar or by clicking the green button on the home page.
 + In the text area labeled "USER INPUT HERE", type or paste your code.
 + Click "PARSE" to execute your code using the backend interpreter.
 + The output will appear in the "OUTPUT" section below the input field.
