@@ -27,3 +27,15 @@ and then run `a` to "run all tests" in watch usage
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+## Code Samples
+
+Users can access the Code Samples feature via the Code Samples tab in the navbar.
+
+### Adding A Code Sample
+
+Add a code sample to the database by inputting a template name and a code template into the "Add a Code Sample" form and clicking the submit button. 
+
+### Using A Code Sample
+
+You can test our interpreter by copying code samples from the provided templates and pasting them into the user input section of our interpreter.
