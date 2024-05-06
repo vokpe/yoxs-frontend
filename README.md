@@ -28,6 +28,16 @@ and then run `a` to "run all tests" in watch usage
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+## Interpreter
+The Interpreter feature enables you to write, parse, and debug custom code within the application.
+
+### Using the Interpreter
++ Access the Interpreter tab via the navbar.
++ In the text area labeled "USER INPUT HERE", type or paste your code.
++ Click "PARSE" to execute your code using the backend interpreter.
++ The output will appear in the "OUTPUT" section below the input field.
++ Additional buttons like "DEBUG" or "IMPORT" are available to enhance your workflow.
+
 ## Code Samples
 
 Users can access the Code Samples feature via the Code Samples tab in the navbar.
