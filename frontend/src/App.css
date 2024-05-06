@@ -135,20 +135,18 @@ code {
   background-color: #1e1e1e;  /* Dark background resembling VS Code */
   border-radius: 5px;
   padding: 10px 15px;  /* Additional padding for line numbers */
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Inconsolata', monospace;
   font-size: 0.85em;
-  color: #d4d4d4;  /* Light text color resembling VS Code */
+  color: #ffffff;  /* Light text color resembling VS Code */
   border: none;  /* Remove border for a cleaner look */
   position: relative;
 }
 
 .card-content pre::before {
-  content: counter(line);
-  counter-reset: line 1;
   display: inline-block;
   width: 25px;  /* Adjust width for line number space */
   text-align: right;
-  color: #858585;  /* Line number color resembling VS Code */
+  color: #ffffff;  /* Line number color resembling VS Code */
   margin-right: 10px;
 }
 
@@ -157,12 +155,10 @@ code {
 }
 
 .card-content pre span:before {
-  content: counter(line);
-  counter-increment: line;
   display: inline-block;
   width: 25px;  /* Consistent width for line numbers */
   text-align: right;
-  color: #858585;
+  color: #ffffff;
   margin-right: 10px;
 }
 
@@ -173,3 +169,48 @@ code {
   text-decoration: none;
   margin-bottom: 0.5rem;
 }
+
+
+
+/*   -------------------------- - - - - - - - - ---------------------------------------------------*/
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  background: linear-gradient(to bottom right, #ffffff, #ffffff);
+}
+
+.welcome-container h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+.welcome-container p {
+  font-size: 1.2em;
+  margin-bottom: 2em;
+}
+
+.start-button {
+  padding: 15px 30px;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.start-button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/*   -------------------------- - - - - - - - - ---------------------------------------------------*/
+
