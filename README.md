@@ -36,7 +36,6 @@ The Interpreter feature enables you to write, parse, and debug custom code withi
 + In the text area labeled "USER INPUT HERE", type or paste your code.
 + Click "PARSE" to execute your code using the backend interpreter.
 + The output will appear in the "OUTPUT" section below the input field.
-+ Additional buttons like "DEBUG" or "IMPORT" are available to enhance your workflow.
 
 ## Code Samples
 
